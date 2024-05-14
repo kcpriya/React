@@ -1,37 +1,31 @@
-//import { Component1 } from "./Components/Component1";
-import { useState, useRef, useEffect } from "react";
+import './App.css';
+import { useCallback, useState } from "react";
+import Todos from './Todos';
 
-function App() {
-    const [inputValue, setInputValue] = useState("")
-    const count = useRef(0)
-    const myInput = useRef(0) 
-    //let count = 1
 
-    useEffect(() => {
-        console.log("Calling");
-         count.current = count.current + 1
-         //count = count + 1
-    });
+const App = () => {
+    const [count, setCount] = useState(0);
+    const [todos, setTodos] = useState([]);
 
+    const increment = () => {
+        //setCount((c) => c + 1);
+        setCount(count+1)
+    };
+    // const addTodo = () => {
+    //     setTodos((t) => [...t, "New Todo"]);
+    // };
+    const addTodo = useCallback (() => {
+    setTodos((t) => [...t, "New Todo"]);
+    }, [todos]);
     return (
         <>
-        <input
-        type="text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        />
-        <h1>Render Count: {count.current}</h1>
-
-        <input id="myInput2" ref={myInput} type="text" value="Some Text" /> <br></br>
-
-        <input type="button"
-        onClick={(e)=>{
-            myInput.current.value = "Hello world"
-            myInput.current.stlye = "color: red"
-            // document.getElementById("myInput2").value = "Mother Earth"
-        }}
-        value="Change Color "/>
+        <Todos todos={todos} addTodo={addTodo} />
+        <hr />
+        <div>
+        Count: {count}
+        <button onClick={increment}>+</button>
+        </div>
         </>
     );
 }
-export default App;
+export default App
